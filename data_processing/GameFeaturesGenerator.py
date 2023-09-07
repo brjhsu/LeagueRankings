@@ -78,16 +78,20 @@ class GameFeaturesGenerator:
             event_time = event['eventTime']
             time_of_kill = GameFeaturesGenerator.get_event_time(self.game_start_time, event_time)
             killer_team_id = str(event['killerTeamID'])
+            victim_team_id = str(GameFeaturesGenerator.flip_team_id(event['killerTeamID']))
             if self.first_herald_flag:
                 team_features[killer_team_id]['first_riftHerald_ind'] = 1
+                team_features[victim_team_id]['first_riftHerald_ind'] = 0
                 team_features[killer_team_id]['first_riftHerald_time'] = time_of_kill
                 self.first_herald_flag = False
             if self.first_dragon_flag:
                 team_features[killer_team_id]['first_dragon_ind'] = 1
+                team_features[victim_team_id]['first_dragon_ind'] = 0
                 team_features[killer_team_id]['first_dragon_time'] = time_of_kill
                 self.first_dragon_flag = False
             if self.first_baron_flag:
                 team_features[killer_team_id]['first_baron_ind'] = 1
+                team_features[victim_team_id]['first_baron_ind'] = 0
                 team_features[killer_team_id]['first_baron_time'] = time_of_kill
                 self.first_baron_flag = False
             team_features[killer_team_id]['num_' + monster_type] += 1
@@ -98,12 +102,15 @@ class GameFeaturesGenerator:
             event_time = event['eventTime']
             time_of_event = GameFeaturesGenerator.get_event_time(self.game_start_time, event_time)
             team_id = str(GameFeaturesGenerator.flip_team_id(event['teamID']))
+            victim_team_id = str(event['teamID'])
             if self.first_turret_flag:
                 team_features[team_id]['first_turret_ind'] = 1
+                team_features[victim_team_id]['first_turret_ind'] = 0
                 team_features[team_id]['first_turret_time'] = time_of_event
                 self.first_turret_flag = False
             if self.first_inhibitor_flag:
                 team_features[team_id]['first_inhibitor_ind'] = 1
+                team_features[victim_team_id]['first_inhibitor_ind'] = 0
                 team_features[team_id]['first_inhibitor_time'] = time_of_event
                 self.first_inhibitor_flag = False
             team_features[team_id]['num_' + building_type] += 1
@@ -112,8 +119,10 @@ class GameFeaturesGenerator:
         event_time = event['eventTime']
         time_of_event = GameFeaturesGenerator.get_event_time(self.game_start_time, event_time)
         killer_team_id = str(event['killerTeamID'])
+        victim_team_id = str(GameFeaturesGenerator.flip_team_id(event['killerTeamID']))
         if self.first_kill_flag:
             team_features[killer_team_id]['first_kill_ind'] = 1
+            team_features[victim_team_id]['first_kill_ind'] = 0
             team_features[killer_team_id]['first_kill_time'] = time_of_event
             self.first_kill_flag = False
         team_features[killer_team_id]['num_kills'] += 1
