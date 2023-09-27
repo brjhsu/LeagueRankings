@@ -5,6 +5,9 @@ import shutil
 import time
 import os
 from io import BytesIO
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import LabelEncoder
 
 S3_BUCKET_URL = "https://power-rankings-dataset-gprhack.s3.us-west-2.amazonaws.com"
 
@@ -17,6 +20,7 @@ def download_gzip_and_write_to_json(file_name):
     if response.status_code == 200:
         try:
             gzip_bytes = BytesIO(response.content)
+            print("File opened")
             with gzip.GzipFile(fileobj=gzip_bytes, mode="rb") as gzipped_file:
                 with open(f"{file_name}.json", 'wb') as output_file:
                     shutil.copyfileobj(gzipped_file, output_file)
@@ -24,8 +28,7 @@ def download_gzip_and_write_to_json(file_name):
         except Exception as e:
             print("Error:", e)
     else:
-        print(f"Failed to download {file_name}")
-
+        raise Exception(f"Failed to download {file_name}")
 
 def download_esports_files():
     directory = "esports-data"
