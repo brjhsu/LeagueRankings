@@ -40,11 +40,17 @@ class TournamentDataProcessor:
             if stage['name'] in training_stages:
                 for section in stage['sections']:
                     for match in section['matches']:
-                        training_data.append(self.get_game_data_full(match))
+                        try:
+                            training_data.append(self.get_game_data_full(match))
+                        except ValueError:  # There are some tournament matches that are recorded, but don't get played for some reason
+                            pass  # Skip all such matches
             elif stage['name'] in testing_stages:
                 for section in stage['sections']:
                     for match in section['matches']:
-                        testing_data.append(self.get_game_data_full(match))
+                        try:
+                            testing_data.append(self.get_game_data_full(match))
+                        except ValueError:
+                            pass
 
         training_data = pd.concat(training_data, ignore_index=True)
         if len(testing_data) > 0:
