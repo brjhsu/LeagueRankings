@@ -1,7 +1,16 @@
+"""
+Class to run the Serial Rank algorithm
+Copied from https://github.com/Chau999/SpectralRankingWithCovariates/tree/main [1], original algorithm from [2]
+
+[1] Chau, SL. (2020). Spectral Ranking With Covariates. GitHub. Retrieved 1
+[2] Fogel, F. (2014). SerialRank: Spectral Ranking using Seriation. 
+"""
+
 from numpy import sign, count_nonzero, ones, shape, reshape, eye, \
-    dot, argsort, allclose, concatenate
+    dot, argsort, allclose, concatenate, diag
 from numpy.linalg import eig
 from numpy.linalg import eigh
+
 
 
 def compute_upsets(r, C, verbose=True, which_method=""):
@@ -32,8 +41,8 @@ def Compute_Sim(C):
     Compute the Similarity matrix
     """
     n = C.shape[0]
-    ones_mat = n * np.dot(np.ones(n).reshape(-1, 1), np.ones(n).reshape(1, -1))
-    S = 0.5 * (ones_mat + np.dot(C, C.T))
+    ones_mat = n * dot(ones(n).reshape(-1, 1), ones(n).reshape(1, -1))
+    S = 0.5 * (ones_mat + dot(C, C.T))
     return S
 
 def get_the_subspace_basis(n, verbose=True):
@@ -59,7 +68,7 @@ def GraphLaplacian(G):
     """
     Input a simlarity graph G and return graph GraphLaplacian
     """
-    D = np.diag(G.sum(axis=1))
+    D = diag(G.sum(axis=1))
     L = D - G
 
     return L
@@ -83,9 +92,9 @@ class SerialRank:
         ztLsz = dot(dot(Z.T, Ls), Z)
         w, v = eig(ztLsz)
 
-        ind = np.argsort(w)
+        ind = argsort(w)
         v = v[:, ind]
-        r = np.reshape(Z.dot(v[:, 0]), (n, 1))
+        r = reshape(Z.dot(v[:, 0]), (n, 1))
 
         _, _, rsign = compute_upsets(r, S, verbose=False)
 
