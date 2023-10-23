@@ -1,6 +1,8 @@
 # League of Legends AWS Global Power Rankings Hackathon
 This repo contains project assets for the AWS Global Power Ranking Hackathon contest. 
 
+Check out the accompanying video on YouTube - [short form](https://youtu.be/JdpqUzGrlGY), [long form](https://youtu.be/8yn6mMW-uXI)
+
 Try it out! [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1eWhFf3rLVSTRyihu0tQRWJtRFP815R_k?usp=sharing)
 
 # Overview
